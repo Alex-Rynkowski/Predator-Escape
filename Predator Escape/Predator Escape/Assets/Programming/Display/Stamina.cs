@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -21,11 +20,11 @@ namespace PE.Display
         }
         public void OnPointerClick(PointerEventData eventData)
         {
-            Sprint();
+            SprintBar();
             SprintText();
         }
 
-        private float Sprint()
+        private float SprintBar()
         {
             float currentAmount = staminaBar.GetComponentInChildren<Image>().fillAmount * 100;
             float newAmount = currentAmount - depleteAmount;
