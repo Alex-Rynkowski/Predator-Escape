@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 8869f6ed35bb2438d8ce8fedd8dbb6fe
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - GAMER
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 66bf6c8a898f1430f87a2c65f4438814, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
