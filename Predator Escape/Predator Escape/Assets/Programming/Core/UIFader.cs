@@ -7,27 +7,30 @@ using UnityEngine.UI;
 namespace PE.Core
 {    
     public class UIFader : MonoBehaviour
-    {        
-        CanvasGroup fader;
+    {
+        [SerializeField] float fadeToBlackTimer;
+        [SerializeField] float fadeFromBlackTimer;
+
+        CanvasGroup canvasGroup;
         private void Start()
         {            
-            fader = GetComponent<CanvasGroup>();
+            canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        public IEnumerator FadeToBlack(float time)
+        public IEnumerator FadeToBlack()
         {
-            while (fader.alpha < 1)
+            while (canvasGroup.alpha < 1)
             {
-                fader.alpha += Time.deltaTime / time;
+                canvasGroup.alpha += Time.deltaTime / fadeToBlackTimer;
                 yield return null;
             }
         }
 
-        public IEnumerator FadeFromBlack(float time)
+        public IEnumerator FadeFromBlack()
         {
-            while (fader.alpha > 0)
+            while (canvasGroup.alpha > 0)
             {
-                fader.alpha -= Time.deltaTime / time;
+                canvasGroup.alpha -= Time.deltaTime / fadeFromBlackTimer;
                 yield return null;
             }
         }

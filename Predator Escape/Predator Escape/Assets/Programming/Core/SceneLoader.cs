@@ -16,9 +16,9 @@ namespace PE.Core
 
         IEnumerator StartToFade(string loadScene)
         {
-            yield return FindObjectOfType<UIFader>().FadeToBlack(1);
+            yield return FindObjectOfType<UIFader>().FadeToBlack();
             yield return SceneManager.LoadSceneAsync(loadScene);
-            yield return FindObjectOfType<UIFader>().FadeFromBlack(1);
+            yield return FindObjectOfType<UIFader>().FadeFromBlack();
 
         }
 

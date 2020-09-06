@@ -1524,9 +1524,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3856803818470342963, guid: ad7056826a289cd48a73e512067b7f5d, type: 3}
+      propertyPath: fadeToBlackTimer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3856803818470342963, guid: ad7056826a289cd48a73e512067b7f5d, type: 3}
+      propertyPath: fadeFromBlackTimer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3856803818521291657, guid: ad7056826a289cd48a73e512067b7f5d, type: 3}
       propertyPath: m_Name
-      value: Core
+      value: Core (persists through all scenes)
       objectReference: {fileID: 0}
     - target: {fileID: 3856803818521291663, guid: ad7056826a289cd48a73e512067b7f5d, type: 3}
       propertyPath: m_LocalPosition.x
