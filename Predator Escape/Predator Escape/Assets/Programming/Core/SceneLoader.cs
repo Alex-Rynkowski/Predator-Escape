@@ -4,12 +4,23 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : MonoBehaviour, IPointerClickHandler
+namespace PE.Core
 {
-    [SerializeField] string sceneToLoad;
-    public void OnPointerClick(PointerEventData eventData)
+
+    public class SceneLoader : MonoBehaviour, IPointerClickHandler
     {
-        SceneManager.LoadScene(sceneToLoad);
+        [SerializeField] string sceneToLoad;
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            StartCoroutine(LoadScene(sceneToLoad));
+        }
+
+        IEnumerator LoadScene(string loadScene)
+        {
+            yield return FindObjectOfType<UIFader>().FadeToBlack();
+            yield return SceneManager.LoadSceneAsync(loadScene);            
+        }
     }
 
 }

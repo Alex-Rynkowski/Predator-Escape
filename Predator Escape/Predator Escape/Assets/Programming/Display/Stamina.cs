@@ -12,16 +12,18 @@ namespace PE.Display
         [SerializeField] GameObject staminaBar;
         [SerializeField] float depleteAmount;
 
+        bool staminaUsed = false;
         Text sprintTxt;
-
+        CanvasGroup canvasGroup;
         private void Start()
         {
             SprintText();
         }
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (staminaUsed) return;
             SprintBar();
-            SprintText();
+            SprintText();            
         }
 
         private float SprintBar()
@@ -36,6 +38,7 @@ namespace PE.Display
             }
             else
             {
+                StartCoroutine(ButtonAplha());
                 return staminaBar.GetComponentInChildren<Image>().fillAmount -= (depleteAmount / 100);
             }
             
@@ -50,6 +53,17 @@ namespace PE.Display
         private float GetFillAmount()
         {
             return Convert.ToInt32(staminaBar.GetComponentInChildren<Image>().fillAmount * 100);
+        }
+
+        private IEnumerator ButtonAplha()
+        {
+            canvasGroup = GetComponent<CanvasGroup>();
+            canvasGroup.alpha = .5f;
+            staminaUsed = true;
+
+            yield return new WaitForSeconds(1);
+            canvasGroup.alpha = 1;
+            staminaUsed = false;
         }
     }
 
