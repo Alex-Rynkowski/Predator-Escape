@@ -21,7 +21,7 @@ namespace PR.Display
 
         public void SliderValueChange()
         {
-            FindObjectOfType<GameManager>().musicSettings();
+            FindObjectOfType<GameManager>().a_musicSettings();
         }
     }
 

@@ -13,11 +13,11 @@ namespace PE.Core
         [SerializeField] Slider musicSlider;
 
         public float musicVolumeSet;
-        public Action musicSettings;
+        public Action a_musicSettings;
 
         private void Start()
         {
-            musicSettings += MusicVolumeSettings;
+            a_musicSettings += MusicVolumeSettings;
         }
 
         private void MusicVolumeSettings()
