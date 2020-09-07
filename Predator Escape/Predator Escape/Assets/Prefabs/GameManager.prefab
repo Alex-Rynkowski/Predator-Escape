@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicSlider: {fileID: 0}
+  settingsPanel: {fileID: 0}
+  musicVolumeSet: 0
