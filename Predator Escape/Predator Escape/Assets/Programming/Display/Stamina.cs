@@ -23,8 +23,7 @@ namespace PE.Display
         {
             if (staminaUsed) return;
             SprintBar();
-            SprintText();
-            StartCoroutine(ButtonAplha());
+            SprintText();            
         }
 
         private float SprintBar()
@@ -39,6 +38,7 @@ namespace PE.Display
             }
             else
             {
+                StartCoroutine(ButtonAplha());
                 return staminaBar.GetComponentInChildren<Image>().fillAmount -= (depleteAmount / 100);
             }
             
