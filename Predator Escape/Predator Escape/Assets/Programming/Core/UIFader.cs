@@ -5,15 +5,17 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace PE.Core
-{    
+{
     public class UIFader : MonoBehaviour
     {
         [SerializeField] float fadeToBlackTimer;
         [SerializeField] float fadeFromBlackTimer;
 
         CanvasGroup canvasGroup;
+
+        public bool sceneLoaded = false;
         private void Start()
-        {            
+        {
             canvasGroup = GetComponent<CanvasGroup>();
         }
 
@@ -24,6 +26,9 @@ namespace PE.Core
                 canvasGroup.alpha += Time.deltaTime / fadeToBlackTimer;
                 yield return null;
             }
+
+            yield return new WaitForSeconds(1);
+            StartCoroutine(FadeFromBlack());
         }
 
         public IEnumerator FadeFromBlack()
@@ -34,7 +39,6 @@ namespace PE.Core
                 yield return null;
             }
         }
-
     }
 
 }

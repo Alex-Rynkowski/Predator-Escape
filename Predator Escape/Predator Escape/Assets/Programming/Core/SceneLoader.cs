@@ -7,21 +7,20 @@ using UnityEngine.SceneManagement;
 namespace PE.Core
 {
 
-    public class SceneLoader : MonoBehaviour
+    public class SceneLoader : MonoBehaviour, IPointerClickHandler
     {
-        public void LoadScene(string sceneToLoad)
+        [SerializeField] string sceneToLoad;
+
+        public void OnPointerClick(PointerEventData eventData)
         {
-            StartCoroutine(StartToFade(sceneToLoad));
+            StartCoroutine(LoadScene(sceneToLoad));
         }
 
-        IEnumerator StartToFade(string loadScene)
+        IEnumerator LoadScene(string loadScene)
         {
             yield return FindObjectOfType<UIFader>().FadeToBlack();
-            yield return SceneManager.LoadSceneAsync(loadScene);
-            yield return FindObjectOfType<UIFader>().FadeFromBlack();
-
+            yield return SceneManager.LoadSceneAsync(loadScene);            
         }
-
     }
 
 }
