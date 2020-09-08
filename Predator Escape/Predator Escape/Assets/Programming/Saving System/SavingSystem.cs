@@ -1,18 +1,47 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using PE.Core;
 
-public class SavingSystem : MonoBehaviour
+namespace PE.Saving
 {
-    // Start is called before the first frame update
-    void Start()
+    public static class SavingSystem
     {
-        
-    }
+        public static void SaveData(GameManager gameMan)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            string path = Application.persistentDataPath + ".sav";
+            FileStream stream = new FileStream(path, FileMode.Create);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            PlayerData data = new PlayerData(gameMan);
+
+            formatter.Serialize(stream, data);
+
+            stream.Close();
+
+        }
+
+        public static PlayerData LoadData()
+        {
+            string path = Application.persistentDataPath + ".sav";
+            if (File.Exists(path))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                FileStream stream = new FileStream(path, FileMode.Open);
+                
+                PlayerData data = formatter.Deserialize(stream) as PlayerData;
+                stream.Close();
+                return data;
+                
+            }
+            else
+            {
+                Debug.LogError("Save file not found in " + path);
+                return null;
+            }
+        }
+
     }
 }

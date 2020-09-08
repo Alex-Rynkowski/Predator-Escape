@@ -1,4 +1,5 @@
 ﻿using PE.Display;
+using PE.Saving;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,9 +25,33 @@ namespace PE.Core
         {
             a_musicSettings += MusicVolumeSettings;
         }
+
+        private void Update()
+        {
+            if (Input.GetKey(KeyCode.S))
+            {
+                Save();
+            }
+            if (Input.GetKey(KeyCode.L))
+            {
+                Load();
+            }
+        }
         private void MusicVolumeSettings()
         {
             musicVolumeSet = FindObjectOfType<SliderSettings>().GetComponent<Slider>().value;
+        }
+
+        public void Save()
+        {
+            SavingSystem.SaveData(this);
+        }
+
+        public void Load()
+        {
+            PlayerData data = SavingSystem.LoadData();
+
+            musicVolumeSet = data.musicVolSettings;
         }
  
     }

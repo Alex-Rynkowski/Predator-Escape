@@ -14,12 +14,12 @@ namespace PE.Core
             if (GetComponent<CanvasGroup>().alpha == 0) return;
             CloseSettings();
         }
-    private void CloseSettings()
+        private void CloseSettings()
         {
             PointerEventData pointerEvent;
             GraphicRaycaster ray = GetComponent<GraphicRaycaster>();
             EventSystem eventSystem = GetComponent<EventSystem>();
-                        
+
             if (Input.GetKey(KeyCode.Mouse0))
             {
                 pointerEvent = new PointerEventData(eventSystem);
