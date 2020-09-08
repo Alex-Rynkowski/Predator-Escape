@@ -8,7 +8,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        FindObjectOfType<GameManager>().a_musicSettings += SongVolume;
+        //FindObjectOfType<GameManager>().a_musicSettings += SongVolume;
     }
     public void MusicToPlay(int musicToPlay)
     {
