@@ -1,22 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-<<<<<<< HEAD
-        [SerializeField] Slider musicSlider;
-        [SerializeField] GameObject settingsPanel;
+    [SerializeField] Slider musicSlider;
+    [SerializeField] GameObject settingsPanel;
 
-        public float musicVolumeSet;
-        public Action a_musicSettings;
+    public float musicVolumeSet;
+    public Action a_musicSettings;
 
-        GraphicRaycaster m_Raycaster;
-        PointerEventData m_PointerEventData;
-        EventSystem m_EventSystem;
+    GraphicRaycaster m_Raycaster;
+    PointerEventData m_PointerEventData;
+    EventSystem m_EventSystem;
 
         private void Start()
         {
@@ -28,7 +27,7 @@ public class GameManager : MonoBehaviour
         }
         private void MusicVolumeSettings()
         {
-            musicVolumeSet = FindObjectOfType<SliderSettings>().GetComponent<Slider>().value;            
+           musicVolumeSet = FindObjectOfType<SliderSettings>().GetComponent<Slider>().value;            
         }
 
         private void Settings()
@@ -57,15 +56,4 @@ public class GameManager : MonoBehaviour
 
             
         }
-
-=======
-        
->>>>>>> parent of 31fc16d... test
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
