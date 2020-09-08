@@ -1,15 +1,13 @@
-﻿using PR.Display;
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
-namespace PE.Core
+public class GameManager : MonoBehaviour
 {
-    public class GameManager : MonoBehaviour
+    // Start is called before the first frame update
+    void Start()
     {
+<<<<<<< HEAD
         [SerializeField] Slider musicSlider;
         [SerializeField] GameObject settingsPanel;
 
@@ -60,6 +58,14 @@ namespace PE.Core
             
         }
 
+=======
+        
+>>>>>>> parent of 31fc16d... test
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 }
