@@ -1,18 +1,43 @@
-﻿using System.Collections;
+﻿using PR.Display;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+namespace PE.Core
 {
-    // Start is called before the first frame update
-    void Start()
+    public class GameManager : MonoBehaviour
     {
-        
+        [SerializeField] Slider musicSlider;
+        [SerializeField] GameObject settingsPanel;
+
+        public float musicVolumeSet;
+        public Action a_musicSettings;
+
+        GraphicRaycaster m_Raycaster;
+        PointerEventData m_PointerEventData;
+        EventSystem m_EventSystem;
+
+        private void Start()
+        {
+            a_musicSettings += MusicVolumeSettings;
+        }
+        private void Update()
+        {
+            Settings();
+        }
+        private void MusicVolumeSettings()
+        {
+            musicVolumeSet = FindObjectOfType<SliderSettings>().GetComponent<Slider>().value;            
+        }
+
+        private void Settings()
+        {
+
+        }
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
