@@ -8,8 +8,13 @@ namespace PE.Core
     {
         [SerializeField] int musicToPlay;
         private void Start()
+        {            
+        }
+
+        private void LateUpdate()
         {
             FindObjectOfType<AudioManager>().MusicToPlay(musicToPlay);
+
         }
     }
 

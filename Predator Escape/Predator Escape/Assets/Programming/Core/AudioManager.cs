@@ -8,32 +8,54 @@ namespace PE.Core
     public class AudioManager : MonoBehaviour
     {
         [SerializeField] AudioSource[] music;
-
-        AudioManager instance;
-
+                
         private void Awake()
         {
-            instance = this;
-            if (instance != null) return;
-
-            DontDestroyOnLoad(gameObject);
+            KeepOneAudioManager();
         }
+
+        private void KeepOneAudioManager()
+        {
+            DontDestroyOnLoad(gameObject);
+
+            for (int i = 0; i < FindObjectsOfType<AudioManager>().Length; i++)
+            {
+                if (i > 0)
+                {
+                    Destroy(gameObject);
+                }
+            }
+        }
+
         private void Start()
         {
             SongVolume();
             FindObjectOfType<GameManager>().a_musicSettings += SongVolume;
         }
+
         public void MusicToPlay(int musicToPlay)
         {
+            if (music[musicToPlay].isPlaying) return;
+
+            StopMusic();
+
             for (int i = 0; i < music.Length; i++)
             {
-                music[i].Stop();
                 if (musicToPlay == i)
                 {
                     music[i].GetComponent<AudioSource>().Play();
                 }
             }
         }
+
+        private void StopMusic()
+        {
+            for (int i = 0; i < music.Length; i++)
+            {
+                music[i].Stop();
+            }
+        }
+
         void SongVolume()
         {
             for (int i = 0; i < music.Length; i++)
@@ -41,7 +63,6 @@ namespace PE.Core
                 music[i].GetComponent<AudioSource>().volume = FindObjectOfType<GameManager>().musicVolumeSet;
             }
         }
-
     }
 
 }

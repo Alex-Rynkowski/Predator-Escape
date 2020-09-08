@@ -13,7 +13,7 @@ namespace PE.Core
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            StartCoroutine(LoadScene(sceneToLoad));
+            StartCoroutine(LoadScene(sceneToLoad));            
         }
 
         IEnumerator LoadScene(string loadScene)
