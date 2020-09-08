@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,14 +11,16 @@ namespace PE.Core
     {
         private void Update()
         {
+            if (GetComponent<CanvasGroup>().alpha == 0) return;
             CloseSettings();
         }
+
         private void CloseSettings()
         {
             PointerEventData pointerEvent;
             GraphicRaycaster ray = GetComponent<GraphicRaycaster>();
             EventSystem eventSystem = GetComponent<EventSystem>();
-
+                        
             if (Input.GetKey(KeyCode.Mouse0))
             {
                 pointerEvent = new PointerEventData(eventSystem);
