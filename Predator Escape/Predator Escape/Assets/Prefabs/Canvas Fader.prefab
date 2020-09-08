@@ -112,7 +112,6 @@ GameObject:
   - component: {fileID: 2490731805031079065}
   - component: {fileID: 2490731805031079079}
   - component: {fileID: 2490731805031079076}
-  - component: {fileID: 2490731805031079077}
   m_Layer: 5
   m_Name: Fader
   m_TagString: Untagged
@@ -189,6 +188,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec83b9e3e28c3af4281de431f08bad56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeToBlackTimer: 0
+  fadeFromBlackTimer: 0
+  sceneLoaded: 0
 --- !u!225 &2490731805031079076
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -201,15 +203,3 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &2490731805031079077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2490731805031079067}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a85c6a35791e9f4caaf7b7bdfc9eb4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

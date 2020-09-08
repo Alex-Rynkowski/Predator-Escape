@@ -10,6 +10,18 @@ namespace PE.Core
         private void Start()
         {
             DontDestroyOnLoad(gameObject);
+            KeepOnlyOneObject();
+        }
+
+        void KeepOnlyOneObject()
+        {
+            for (int i = 0; i < FindObjectsOfType<PersistantObjects>().Length; i++)
+            {
+                if(i > 0)
+                {
+                    Destroy(gameObject);
+                }
+            }
         }
     }
 }
