@@ -139,16 +139,7 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2490731805031079079, guid: 3fa28834efaf48f4683cfad0471a2d3a, type: 3}
-      propertyPath: fadeToBlackTimer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2490731805031079079, guid: 3fa28834efaf48f4683cfad0471a2d3a, type: 3}
-      propertyPath: fadeFromBlackTimer
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2490731805031079077, guid: 3fa28834efaf48f4683cfad0471a2d3a, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3fa28834efaf48f4683cfad0471a2d3a, type: 3}
 --- !u!224 &3856803820034533527 stripped
 RectTransform:
