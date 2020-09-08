@@ -276,6 +276,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4958382930444333075, guid: e820ba7b45af7437da88e6003147c67e, type: 3}
+      propertyPath: musicToPlay
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4958382930444333079, guid: e820ba7b45af7437da88e6003147c67e, type: 3}
       propertyPath: m_Name
       value: Main Camera

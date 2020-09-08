@@ -13,6 +13,7 @@ namespace PE.Saving
         {
             BinaryFormatter formatter = new BinaryFormatter();
             string path = Application.persistentDataPath + ".sav";
+            Debug.Log(path);
             FileStream stream = new FileStream(path, FileMode.Create);
 
             PlayerData data = new PlayerData(gameMan);

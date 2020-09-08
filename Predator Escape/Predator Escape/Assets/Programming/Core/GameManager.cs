@@ -17,6 +17,8 @@ namespace PE.Core
         public float musicVolumeSet;
         public Action a_musicSettings;
 
+        bool loadedData = false;
+
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
@@ -39,7 +41,15 @@ namespace PE.Core
         }
         private void MusicVolumeSettings()
         {
-            musicVolumeSet = FindObjectOfType<SliderSettings>().GetComponent<Slider>().value;
+            if (!loadedData)
+            {
+                musicVolumeSet = FindObjectOfType<SliderSettings>().GetComponent<Slider>().value;
+            }
+            else
+            {
+                FindObjectOfType<SliderSettings>().GetComponent<Slider>().value = musicVolumeSet;
+            }
+            
         }
 
         public void Save()
@@ -49,9 +59,12 @@ namespace PE.Core
 
         public void Load()
         {
+            loadedData = true;
             PlayerData data = SavingSystem.LoadData();
 
             musicVolumeSet = data.musicVolSettings;
+            a_musicSettings();
+            loadedData = false;
         }
  
     }
