@@ -14,11 +14,6 @@ namespace PE.Core
             if (GetComponent<CanvasGroup>().alpha == 0) return;
             CloseSettings();
         }
-        public void OpenSettingsPanel()
-        {
-            ShowSettings(true);
-        }
-
     private void CloseSettings()
         {
             PointerEventData pointerEvent;
@@ -41,7 +36,7 @@ namespace PE.Core
             }
         }
 
-        private void ShowSettings(bool shouldShowSettings)
+        public void ShowSettings(bool shouldShowSettings)
         {
             CanvasGroup canvas = GetComponent<CanvasGroup>();
 

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace PE.Display
 {
 
-    public class SliderSettings : MonoBehaviour, IPointerClickHandler, IDragHandler, IPointerDownHandler
+    public class SliderSettings : MonoBehaviour, IDragHandler, IPointerDownHandler
     {
 
         private void Start()
@@ -16,11 +16,6 @@ namespace PE.Display
             GetComponent<Slider>().value = FindObjectOfType<GameManager>().musicVolumeSet;
         }
         public void OnDrag(PointerEventData eventData)
-        {
-            SliderValueChange();
-        }
-
-        public void OnPointerClick(PointerEventData eventData)
         {
             SliderValueChange();
         }
