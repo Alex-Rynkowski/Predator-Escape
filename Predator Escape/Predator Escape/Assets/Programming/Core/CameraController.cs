@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+namespace PE.Core
 {
-    [SerializeField] int musicToPlay;
-    private void Start()
+    public class CameraController : MonoBehaviour
     {
-        FindObjectOfType<AudioManager>().MusicToPlay(musicToPlay);
+        [SerializeField] int musicToPlay;
+        private void Start()
+        {
+            FindObjectOfType<AudioManager>().MusicToPlay(musicToPlay);
+        }
     }
 
 }

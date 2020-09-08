@@ -2,44 +2,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+namespace PE.Core
 {
-    [SerializeField] AudioSource[] music;
 
-
-    AudioManager instance;
-
-
-    private void Awake()
+    public class AudioManager : MonoBehaviour
     {
-        instance = this;
-        if (instance != null) return;
+        [SerializeField] AudioSource[] music;
 
-        DontDestroyOnLoad(gameObject);
-    }
-    private void Start()
-    {
+        AudioManager instance;
 
-        SongVolume();
-        FindObjectOfType<GameManager>().a_musicSettings += SongVolume;
-    }
-    public void MusicToPlay(int musicToPlay)
-    {
-        for (int i = 0; i < music.Length; i++)
+        private void Awake()
         {
-            music[i].Stop();
-            if (musicToPlay == i)
+            instance = this;
+            if (instance != null) return;
+
+            DontDestroyOnLoad(gameObject);
+        }
+        private void Start()
+        {
+            SongVolume();
+            FindObjectOfType<GameManager>().a_musicSettings += SongVolume;
+        }
+        public void MusicToPlay(int musicToPlay)
+        {
+            for (int i = 0; i < music.Length; i++)
             {
-                music[i].GetComponent<AudioSource>().Play();
+                music[i].Stop();
+                if (musicToPlay == i)
+                {
+                    music[i].GetComponent<AudioSource>().Play();
+                }
             }
         }
-    }
-    void SongVolume()
-    {
-        for (int i = 0; i < music.Length; i++)
+        void SongVolume()
         {
-            music[i].GetComponent<AudioSource>().volume = FindObjectOfType<GameManager>().musicVolumeSet;
+            for (int i = 0; i < music.Length; i++)
+            {
+                music[i].GetComponent<AudioSource>().volume = FindObjectOfType<GameManager>().musicVolumeSet;
+            }
         }
+
     }
 
 }

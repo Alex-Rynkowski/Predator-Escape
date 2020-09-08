@@ -5,53 +5,24 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+namespace PE.Core
 {
-    [SerializeField] GameObject settingsPanel;
 
-    public float musicVolumeSet;
-    public Action a_musicSettings;
-
-    private void Start()
+    public class GameManager : MonoBehaviour
     {
-        a_musicSettings += MusicVolumeSettings;
-    }
-    private void Update()
-    {
-        CloseSettings();
-    }
-    private void MusicVolumeSettings()
-    {
-        musicVolumeSet = FindObjectOfType<SliderSettings>().GetComponent<Slider>().value;
-    }
+        [SerializeField] GameObject settingsPanel;
 
-    private void CloseSettings()
-    {        
-        PointerEventData pointerEvent;
-        GraphicRaycaster ray = settingsPanel.GetComponent<GraphicRaycaster>();
-        EventSystem eventSystem = GetComponent<EventSystem>();
+        public float musicVolumeSet;
+        public Action a_musicSettings;
 
-        if (Input.GetKey(KeyCode.Mouse0))
+        private void Start()
         {
-            pointerEvent = new PointerEventData(eventSystem);
-            pointerEvent.position = Input.mousePosition;
-
-            List<RaycastResult> results = new List<RaycastResult>();
-            ray.Raycast(pointerEvent, results);
-
-            foreach (RaycastResult result in results)
-            {                                
-                return;                
-            }
-            HideSettingsPanel();
+            a_musicSettings += MusicVolumeSettings;
         }
-    }
-
-    private void HideSettingsPanel()
-    {
-        CanvasGroup canvas = settingsPanel.GetComponent<CanvasGroup>();
-        canvas.alpha = 0;
-        canvas.interactable = false;
-        canvas.blocksRaycasts = false;
+        private void MusicVolumeSettings()
+        {
+            musicVolumeSet = FindObjectOfType<SliderSettings>().GetComponent<Slider>().value;
+        }
+ 
     }
 }

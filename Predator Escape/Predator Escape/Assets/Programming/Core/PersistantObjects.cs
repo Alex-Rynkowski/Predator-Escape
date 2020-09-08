@@ -1,12 +1,15 @@
-﻿using System.Collections;
+﻿using Microsoft.Unity.VisualStudio.Editor;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PersistantObjects : MonoBehaviour
+namespace PE.Core
 {
-    private void Start()
+    public class PersistantObjects : MonoBehaviour
     {
-        DontDestroyOnLoad(gameObject);
+        private void Start()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
     }
-
 }
