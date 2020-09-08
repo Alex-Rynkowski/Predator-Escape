@@ -6,9 +6,20 @@ public class AudioManager : MonoBehaviour
 {
     [SerializeField] AudioSource[] music;
 
+
+    AudioManager instance;
+
+
+    private void Awake()
+    {
+        instance = this;
+        if (instance != null) return;
+
+        DontDestroyOnLoad(gameObject);
+    }
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
+
         SongVolume();
         FindObjectOfType<GameManager>().a_musicSettings += SongVolume;
     }
