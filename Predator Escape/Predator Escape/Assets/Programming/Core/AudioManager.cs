@@ -34,8 +34,6 @@ public class AudioManager : MonoBehaviour
             }
         }
     }
-
-
     void SongVolume()
     {
         for (int i = 0; i < music.Length; i++)
