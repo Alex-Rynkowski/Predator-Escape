@@ -8,12 +8,15 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        //FindObjectOfType<GameManager>().a_musicSettings += SongVolume;
+        DontDestroyOnLoad(gameObject);
+        SongVolume();
+        FindObjectOfType<GameManager>().a_musicSettings += SongVolume;
     }
     public void MusicToPlay(int musicToPlay)
     {
         for (int i = 0; i < music.Length; i++)
         {
+            music[i].Stop();
             if (musicToPlay == i)
             {
                 music[i].GetComponent<AudioSource>().Play();

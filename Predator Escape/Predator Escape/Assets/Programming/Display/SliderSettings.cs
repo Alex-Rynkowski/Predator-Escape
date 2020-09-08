@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SliderSettings : MonoBehaviour, IPointerClickHandler, IDragHandler
+public class SliderSettings : MonoBehaviour, IPointerClickHandler, IDragHandler, IPointerDownHandler
 {
     public void OnDrag(PointerEventData eventData)
     {
@@ -11,6 +11,11 @@ public class SliderSettings : MonoBehaviour, IPointerClickHandler, IDragHandler
     }
 
     public void OnPointerClick(PointerEventData eventData)
+    {
+        SliderValueChange();
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
     {
         SliderValueChange();
     }
