@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Threading;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,21 +17,36 @@ namespace PE.Movement
         [SerializeField] float moveSpeed = 40f;
         [SerializeField] float jumpHeight = 10f;
         [SerializeField] float speedBoost = 10f;
+        [SerializeField] float fallSpeed = 1;
+        
         Rigidbody rb;
+        bool grounded = true;
+        float currentYPos;
+
 
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
+
         }
 
         private void Update()
         {
-            Movement();
-            ClickPosition();
+
+        }
+
+        private void FixedUpdate()
+        {
+           // Movement();
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                Jump();
+                //ClickPosition();
+            }
         }
         private void Movement()
         {
-            rb.velocity = new Vector2(moveSpeed, 0);
+            rb.velocity = new Vector2(moveSpeed, transform.position.y);
         }
 
         private void ClickPosition()
@@ -37,8 +55,6 @@ namespace PE.Movement
             GraphicRaycaster[] rays = FindObjectsOfType<GraphicRaycaster>();
             PointerEventData pointer;
 
-            if (Input.GetKey(KeyCode.Mouse0))
-            {
                 pointer = new PointerEventData(events);
                 pointer.position = Input.mousePosition;
 
@@ -53,13 +69,19 @@ namespace PE.Movement
                     }
                 }
 
+                if (!grounded) return;
                 Jump();
-            }
+        }
+
+        private void FallSpeed()
+        {
+            rb.AddForce(Vector2.down * fallSpeed);
         }
 
         private void Jump()
         {
             rb.AddForce(Vector2.up * jumpHeight);
+            //grounded = false;
         }
 
         public float MoveSpeed(bool boostUsed)
@@ -73,8 +95,16 @@ namespace PE.Movement
                 return moveSpeed -= speedBoost;
             }            
         }
-
-
+        private void OnCollisionEnter(Collision other)
+        {
+            if (other.gameObject.tag == "Ground")
+            {                
+                grounded = true;
+            }
+        }
     }
+
+    
+    
 
 }
