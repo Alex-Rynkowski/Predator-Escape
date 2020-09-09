@@ -13,7 +13,7 @@ namespace PE.Movement
     {
         [SerializeField] float moveSpeed = 40f;
         [SerializeField] float jumpHeight = 10f;
-
+        [SerializeField] float speedBoost = 10f;
         Rigidbody rb;
 
         private void Start()
@@ -61,6 +61,20 @@ namespace PE.Movement
         {
             rb.AddForce(Vector2.up * jumpHeight);
         }
+
+        public float MoveSpeed(bool boostUsed)
+        {
+            if (boostUsed)
+            {
+                return moveSpeed += speedBoost;
+            }
+            else
+            {
+                return moveSpeed -= speedBoost;
+            }            
+        }
+
+
     }
 
 }

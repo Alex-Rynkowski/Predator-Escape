@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PE.Movement;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,12 +60,12 @@ namespace PE.Display
         {
             canvasGroup = GetComponent<CanvasGroup>();
             canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
+            FindObjectOfType<PlayerMovement>().MoveSpeed(true);
             staminaUsed = true;
 
             yield return new WaitForSeconds(1);
             canvasGroup.interactable = true;
-            canvasGroup.blocksRaycasts = true;
+            FindObjectOfType<PlayerMovement>().MoveSpeed(false);
             staminaUsed = false;
         }
     }
