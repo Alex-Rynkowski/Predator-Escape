@@ -58,11 +58,11 @@ namespace PE.Display
         private IEnumerator ButtonAplha()
         {
             canvasGroup = GetComponent<CanvasGroup>();
-            canvasGroup.alpha = .5f;
+            canvasGroup.interactable = false;
             staminaUsed = true;
 
             yield return new WaitForSeconds(1);
-            canvasGroup.alpha = 1;
+            canvasGroup.interactable = true;
             staminaUsed = false;
         }
     }
