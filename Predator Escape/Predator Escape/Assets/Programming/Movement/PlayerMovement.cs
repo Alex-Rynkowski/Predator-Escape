@@ -32,21 +32,23 @@ namespace PE.Movement
 
         private void Update()
         {
-
-        }
-
-        private void FixedUpdate()
-        {
-           // Movement();
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            Movement();
+            if (Input.GetKeyDown(KeyCode.Space) && grounded)
             {
                 Jump();
                 //ClickPosition();
             }
         }
+
+        private void FixedUpdate()
+        {
+
+        }
         private void Movement()
         {
-            rb.velocity = new Vector2(moveSpeed, transform.position.y);
+            if (!grounded) return;
+            rb.velocity = Vector2.right * moveSpeed;
+            //rb.velocity = new Vector2(moveSpeed, transform.position.y);
         }
 
         private void ClickPosition()
@@ -81,7 +83,7 @@ namespace PE.Movement
         private void Jump()
         {
             rb.AddForce(Vector2.up * jumpHeight);
-            //grounded = false;
+            grounded = false;
         }
 
         public float MoveSpeed(bool boostUsed)
