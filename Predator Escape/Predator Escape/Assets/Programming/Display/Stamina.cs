@@ -59,10 +59,12 @@ namespace PE.Display
         {
             canvasGroup = GetComponent<CanvasGroup>();
             canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
             staminaUsed = true;
 
             yield return new WaitForSeconds(1);
             canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
             staminaUsed = false;
         }
     }
