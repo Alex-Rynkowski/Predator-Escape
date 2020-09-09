@@ -26,6 +26,7 @@ namespace PE.Core
         private void Start()
         {
             a_musicSettings += MusicVolumeSettings;
+            Load();
         }
 
         private void Update()
