@@ -62,7 +62,7 @@ namespace PE.Movement
         {
             if (jumpTimer > 0)
             {                
-                rb.AddForce(Vector2.up * jumpForce);
+                rb.AddForce(Vector2.up * jumpForce );
                 jumpTimer -= Time.deltaTime;
             }
             else
@@ -73,8 +73,7 @@ namespace PE.Movement
         private void StopJumpHeight()
         {
             print("stop jump!");
-            rb.velocity = new Vector2(rb.velocity.x, -fallSpeed);
-            //rb.AddForce(Vector3.down * fallSpeed);
+            rb.velocity = new Vector2(rb.velocity.x, -fallSpeed * Time.fixedDeltaTime);            
             jumpTimer = jumpTimeCounter;
             stoppedJumping = true;
             isGrounded = false;
