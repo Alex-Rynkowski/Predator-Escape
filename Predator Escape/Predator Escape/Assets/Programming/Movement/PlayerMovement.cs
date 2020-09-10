@@ -15,75 +15,88 @@ namespace PE.Movement
     public class PlayerMovement : MonoBehaviour
     {
         [SerializeField] float moveSpeed = 40f;
-        [SerializeField] float jumpHeight = 10f;
         [SerializeField] float speedBoost = 10f;
-        [SerializeField] float fallSpeed = 1;
-        
-        Rigidbody rb;
-        bool grounded = true;
-        float currentYPos;
+        [SerializeField] float jumpForce = 10f;        
+        [SerializeField] float jumpTimeCounter = 1;
+        [SerializeField] float fallSpeed = 20;
 
+        Rigidbody rb;
+        bool isGrounded = true;
+        bool stoppedJumping = true;
+        float jumpTimer;
 
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
-
+            jumpTimer = jumpTimeCounter;
         }
 
         private void Update()
         {
             Movement();
-            if (Input.GetKeyDown(KeyCode.Space) && grounded)
-            {
-                Jump();
-                //ClickPosition();
-            }
+
+            if (!CanJump()) return;
+            Jump();
         }
 
-        private void FixedUpdate()
-        {
-
-        }
         private void Movement()
         {
-            if (!grounded) return;
+            if (!isGrounded) return;
             rb.velocity = Vector2.right * moveSpeed;
-            //rb.velocity = new Vector2(moveSpeed, transform.position.y);
         }
 
-        private void ClickPosition()
+        private void Jump()
+        {    
+            if (Input.GetKey(KeyCode.Mouse0) && isGrounded) 
+                stoppedJumping = false;
+            if (Input.GetKey(KeyCode.Mouse0) && !stoppedJumping) 
+                JumpHeightController();
+            if (Input.GetKeyUp(KeyCode.Mouse0)) 
+                StopJumpHeight();
+        }
+
+        private void JumpHeightController()
+        {
+            if (jumpTimer > 0)
+            {                
+                rb.AddForce(Vector2.up * jumpForce);
+                jumpTimer -= Time.deltaTime;
+            }
+            else
+            {
+                StopJumpHeight();
+            }
+        }
+        private void StopJumpHeight()
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -fallSpeed);
+            //rb.AddForce(Vector3.down * fallSpeed);
+            jumpTimer = jumpTimeCounter;
+            stoppedJumping = true;
+            isGrounded = false;
+        }
+
+        private bool CanJump()
         {
             EventSystem events = GetComponent<EventSystem>();
             GraphicRaycaster[] rays = FindObjectsOfType<GraphicRaycaster>();
             PointerEventData pointer;
 
-                pointer = new PointerEventData(events);
-                pointer.position = Input.mousePosition;
+            pointer = new PointerEventData(events);
+            pointer.position = Input.mousePosition;
 
-                List<RaycastResult> results = new List<RaycastResult>();
+            List<RaycastResult> results = new List<RaycastResult>();
 
-                foreach (GraphicRaycaster ray in rays)
+            foreach (GraphicRaycaster ray in rays)
+            {
+                ray.Raycast(pointer, results);
+                foreach (RaycastResult result in results)
                 {
-                    ray.Raycast(pointer, results);
-                    foreach (RaycastResult result in results)
-                    {
-                        return;
-                    }
+                    return false;
                 }
-
-                if (!grounded) return;
-                Jump();
-        }
-
-        private void FallSpeed()
-        {
-            rb.AddForce(Vector2.down * fallSpeed);
-        }
-
-        private void Jump()
-        {
-            rb.AddForce(Vector2.up * jumpHeight);
-            grounded = false;
+            }
+            if (!isGrounded) return false;
+            return true;        
         }
 
         public float MoveSpeed(bool boostUsed)
@@ -95,18 +108,14 @@ namespace PE.Movement
             else
             {
                 return moveSpeed -= speedBoost;
-            }            
+            }
         }
         private void OnCollisionEnter(Collision other)
         {
             if (other.gameObject.tag == "Ground")
-            {                
-                grounded = true;
+            {
+                isGrounded = true;
             }
         }
     }
-
-    
-    
-
 }

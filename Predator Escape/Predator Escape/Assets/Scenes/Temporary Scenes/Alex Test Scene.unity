@@ -6142,8 +6142,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpHeight: 5
-  speedBoost: 50
+  jumpForce: 200
+  speedBoost: 5
   fallSpeed: 1
 --- !u!54 &931901126
 Rigidbody:
