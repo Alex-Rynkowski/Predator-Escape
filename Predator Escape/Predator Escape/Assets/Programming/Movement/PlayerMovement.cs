@@ -16,8 +16,11 @@ namespace PE.Movement
     {
         [SerializeField] float moveSpeed = 40f;
         [SerializeField] float speedBoost = 10f;
-        [SerializeField] float jumpForce = 10f;        
+        [SerializeField] float jumpForce = 10f;    
+
+        [Tooltip("Controls max height of the jump, (depending on how long the user holds the jump button)")]
         [SerializeField] float jumpTimeCounter = 1;
+
         [SerializeField] float fallSpeed = 20;
 
         Rigidbody rb;
@@ -69,6 +72,7 @@ namespace PE.Movement
         }
         private void StopJumpHeight()
         {
+            print("stop jump!");
             rb.velocity = new Vector2(rb.velocity.x, -fallSpeed);
             //rb.AddForce(Vector3.down * fallSpeed);
             jumpTimer = jumpTimeCounter;
