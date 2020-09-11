@@ -14,6 +14,7 @@ namespace PE.Display
         [SerializeField] float depleteAmount;
 
         bool staminaUsed = false;
+        bool sprintToggle = false;
         Text sprintTxt;
         CanvasGroup canvasGroup;
         private void Start()
@@ -23,8 +24,19 @@ namespace PE.Display
         public void OnPointerClick(PointerEventData eventData)
         {
             if (staminaUsed) return;
-            SprintBar();
-            SprintText();            
+
+            float currentAmount = staminaBar.GetComponentInChildren<Image>().fillAmount * 100;
+
+            if (!sprintToggle && currentAmount > 10)
+            {
+                sprintToggle = true;
+                StartCoroutine(DrainContinuously());
+            }
+
+            else
+            {
+                sprintToggle = false;
+            }
         }
 
         private float SprintBar()
@@ -33,13 +45,14 @@ namespace PE.Display
             float newAmount = currentAmount - depleteAmount;
 
             print(newAmount);
+
             if (newAmount < 0)
             {
                 return currentAmount;
             }
             else
             {
-                StartCoroutine(ButtonAplha());
+                //StartCoroutine(ButtonAplha());
                 return staminaBar.GetComponentInChildren<Image>().fillAmount -= (depleteAmount / 100);
             }
             
@@ -67,6 +80,20 @@ namespace PE.Display
             canvasGroup.interactable = true;
             FindObjectOfType<PlayerMovement>().MoveSpeed(false);
             staminaUsed = false;
+        }
+
+        private IEnumerator DrainContinuously()
+        {
+            SprintBar();
+            SprintText();
+
+            float currentAmount = staminaBar.GetComponentInChildren<Image>().fillAmount * 100;
+
+            if (sprintToggle && currentAmount >= 1.1f)
+            {
+                yield return new WaitForSeconds(0.2f);
+                StartCoroutine(DrainContinuously());
+            }
         }
     }
 
