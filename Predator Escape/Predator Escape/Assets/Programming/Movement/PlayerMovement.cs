@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Threading;
-using UnityEditor;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -23,14 +19,14 @@ namespace PE.Movement
 
         [SerializeField] float fallSpeed = 20;
 
-        Rigidbody rb;
+        Rigidbody2D rb;
         bool isGrounded = true;
         bool stoppedJumping = true;
         float jumpTimer;
 
         private void Start()
         {
-            rb = GetComponent<Rigidbody>();
+            rb = GetComponent<Rigidbody2D>();
             jumpTimer = jumpTimeCounter;
         }
 
@@ -113,10 +109,12 @@ namespace PE.Movement
                 return moveSpeed -= speedBoost;
             }
         }
-        private void OnCollisionEnter(Collision other)
+        
+        private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.tag == "Ground")
-            {
+            {                
+                print("hello?");
                 isGrounded = true;
             }
         }

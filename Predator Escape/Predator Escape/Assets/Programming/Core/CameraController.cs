@@ -16,12 +16,12 @@ namespace PE.Core
 
         private void LateUpdate()
         {
-            //FindObjectOfType<AudioManager>().MusicToPlay(musicToPlay);
+            FindObjectOfType<AudioManager>().MusicToPlay(musicToPlay);
 
-            //xPos = gameObject.transform.position.x;
-            //xPos = FindObjectOfType<PlayerMovement>().GetComponent<Transform>().position.x;
+            xPos = gameObject.transform.position.x;
+            xPos = FindObjectOfType<PlayerMovement>().GetComponent<Transform>().position.x;
 
-            //transform.position = new Vector2(xPos, 0);
+            transform.position = new Vector2(xPos, 0);
 
         }
     }
