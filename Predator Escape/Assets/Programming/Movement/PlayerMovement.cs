@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -16,77 +15,65 @@ namespace PE.Movement
 
         [Header("Jump")]
         [SerializeField] KeyCode jumpKey;
-        [SerializeField] float jumpForce = 10f;
-        [Tooltip("Controls max height of the jump, (depending on how long the user holds the jump button)")]
-        [SerializeField] float jumpTimeCounter = 1;
-        [SerializeField] float fallSpeed = 20;
+        [Tooltip("How should the first jump be?")]
+        [SerializeField] float jumpForceFirst = 10f;
+        [Tooltip("How should the second jump be?")]
+        [SerializeField] float jumpForceSecond = 15f;
 
         Rigidbody2D rb;
-        bool isGrounded = true;
-        bool stoppedJumping = true;
-        float jumpTimer;
+        bool canJumpAgain = false;
 
-        RaycastHit2D hit;
         EventSystem events;
         GraphicRaycaster[] rays;
         PointerEventData pointer;
+
+        BoxCollider2D collider2D;
         LayerMask groundLayer;
-        BoxCollider2D col;
 
         private void Start()
         {
-            col = GetComponent<BoxCollider2D>();
-            Physics2D.queriesStartInColliders = false;
             rb = GetComponent<Rigidbody2D>();
-            jumpTimer = jumpTimeCounter;
 
+            rays = FindObjectsOfType<GraphicRaycaster>();
+            events = GetComponent<EventSystem>();
+
+            collider2D = GetComponent<BoxCollider2D>();
             groundLayer = LayerMask.GetMask("Ground");
 
-            events = GetComponent<EventSystem>();
-            rays = FindObjectsOfType<GraphicRaycaster>();
-
-            hit = Physics2D.Raycast(transform.position, Vector2.down, 100, groundLayer);
-
         }
 
-        void Update()
+        private void Update()
         {
-            if(IsGrounded()){
-                isGrounded = true;
+            MoveRight();
+            if (Input.GetKeyUp(jumpKey) && IsGrounded() && CanJump())
+            {
+                FirstJump();
+                return;
             }
+            if(Input.GetKeyUp(jumpKey) && canJumpAgain)
+            {
+                SecondJump();
+            }
+            
         }
 
-        
-
-        private bool IsGrounded(){
-            hit = Physics2D.BoxCast(col.bounds.center, col.bounds.size, 0f, Vector2.down, groundLayer);
-            Color rayColor;
-            if(hit.collider != null){
-                rayColor = Color.green;
-            }else{
-                rayColor = Color.red;
-            }
-
-            Debug.DrawRay(col.bounds.center + new Vector3(col.bounds.extents.x, 0), Vector2.down * (col.bounds.extents.y + .1f), rayColor);
-            Debug.DrawRay(col.bounds.center - new Vector3(col.bounds.extents.x, 0), Vector2.down * (col.bounds.extents.y + .1f), rayColor);
-            Debug.DrawRay(col.bounds.center - new Vector3(col.bounds.extents.x, col.bounds.extents.y), Vector2.right * (col.bounds.extents.x), rayColor);
-            print("hmmm");
-            return hit.collider != null;
-
+        private void FirstJump()
+        {            
+            rb.velocity = Vector2.up * jumpForceFirst;
+            canJumpAgain = true;
         }
 
-        private void FixedUpdate()
+        private void SecondJump()
         {
-            Movement();
-            if (!CanJump()) return;
-            Jump();
+            rb.velocity = Vector2.up * jumpForceSecond;
+            canJumpAgain = false;
+                       
         }
 
         #region Move function
-        private void Movement()
+        private void MoveRight()
         {
-            if (!isGrounded) return;
-            rb.velocity = Vector2.right * moveSpeed;
+            rb.velocity = new Vector3(moveSpeed, rb.velocity.y);
         }
 
         public float MoveSpeed(bool boostUsed)
@@ -102,39 +89,8 @@ namespace PE.Movement
         }
         #endregion
 
-        #region Jump Function
-        private void Jump()
-        {
-            if (Input.GetKey(jumpKey) && isGrounded)
-                stoppedJumping = false;
-            if (Input.GetKey(jumpKey) && !stoppedJumping)
-                JumpHeightController();
-            if (Input.GetKeyUp(jumpKey))
-                StopJumpHeight();
-        }
 
-        private void JumpHeightController()
-        {
-            if (jumpTimer > 0)
-            {
-                rb.AddForce(Vector2.up * jumpForce);
-                jumpTimer -= Time.deltaTime;
-            }
-            else
-            {
-                StopJumpHeight();
-            }
-        }
-        private void StopJumpHeight()
-        {
-            print("stop jump!");
-            rb.AddForce(Vector2.down * fallSpeed);
-            //rb.velocity = new Vector2(rb.velocity.x, -fallSpeed);
-            jumpTimer = jumpTimeCounter;
-            stoppedJumping = true;
-            isGrounded = false;
-        }
-
+        #region booleans
         private bool CanJump()
         {
             pointer = new PointerEventData(events);
@@ -150,23 +106,26 @@ namespace PE.Movement
                     return false;
                 }
             }
-            if (!isGrounded) return false;
             return true;
         }
-        #endregion
 
-
-
-        private void OnCollisionEnter2D(Collision2D other)
+        private bool IsGrounded()
         {
-            // if(isGrounded) return;
-            // if (other.gameObject.tag == "Ground")
-            // {
-            //     isGrounded = true;
-            //     print("yes!");
-            // }
+            RaycastHit2D hit = Physics2D.BoxCast(collider2D.bounds.center, collider2D.bounds.size, 0f, Vector2.down, .1f, groundLayer);
+            Color rayColor;
+            if (hit.collider != null)
+            {
+                rayColor = Color.green;
+            }
+            else
+            {
+                rayColor = Color.red;
+            }
+            Debug.DrawRay(collider2D.bounds.center + new Vector3(collider2D.bounds.extents.x, 0), Vector2.down * (collider2D.bounds.extents.y + .1f), rayColor);
+            Debug.DrawRay(collider2D.bounds.center - new Vector3(collider2D.bounds.extents.x, 0), Vector2.down * (collider2D.bounds.extents.y + .1f), rayColor);
+            Debug.DrawRay(collider2D.bounds.center - new Vector3(collider2D.bounds.extents.x, collider2D.bounds.extents.y), Vector2.right, rayColor);
+            return hit.collider != null;
         }
-
-
+        #endregion
     }
 }
