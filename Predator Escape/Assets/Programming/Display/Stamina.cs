@@ -1,7 +1,6 @@
 ﻿using PE.Movement;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -15,16 +14,19 @@ namespace PE.Display
 
         bool staminaUsed = false;
         Text sprintTxt;
+        PlayerMovement playerMovement;
         CanvasGroup canvasGroup;
         private void Start()
         {
             SprintText();
+            playerMovement = FindObjectOfType<PlayerMovement>();
         }
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (!playerMovement.IsGrounded()) return;
             if (staminaUsed) return;
             SprintBar();
-            SprintText();            
+            SprintText();
         }
 
         private float SprintBar()
@@ -42,7 +44,7 @@ namespace PE.Display
                 StartCoroutine(ButtonAplha());
                 return staminaBar.GetComponentInChildren<Image>().fillAmount -= (depleteAmount / 100);
             }
-            
+
         }
 
         private void SprintText()

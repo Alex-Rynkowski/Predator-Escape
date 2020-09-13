@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -23,6 +22,7 @@ namespace PE.Movement
         [Tooltip("How high should the second jump be?")]
         [SerializeField] float jumpForceSecond = 15f;
 
+        [SerializeField] ParticleSystem jumpBurstParticles;
         Rigidbody2D rb;
         bool canJumpAgain = false;
 
@@ -32,6 +32,7 @@ namespace PE.Movement
 
         BoxCollider2D collider;
         LayerMask groundLayer;
+
         #endregion
 
         #region start and update
@@ -45,6 +46,7 @@ namespace PE.Movement
 
             collider = GetComponent<BoxCollider2D>();
             groundLayer = LayerMask.GetMask("Ground");
+
 
         }
 
@@ -69,14 +71,17 @@ namespace PE.Movement
         private void FirstJump()
         {
             rb.velocity = Vector2.up * jumpForceFirst;
+            var particles = GameObject.Instantiate(jumpBurstParticles, transform.position, transform.rotation);
+            Destroy(particles.gameObject, 1);
             canJumpAgain = true;
         }
 
         private void SecondJump()
         {
+            var burst = GameObject.Instantiate(jumpBurstParticles, transform.position, transform.rotation);
             rb.velocity = Vector2.up * jumpForceSecond;
+            Destroy(burst.gameObject, 1);
             canJumpAgain = false;
-
         }
         #endregion
 
@@ -119,7 +124,7 @@ namespace PE.Movement
             return true;
         }
 
-        private bool IsGrounded()
+        public bool IsGrounded()
         {
             RaycastHit2D hit = Physics2D.BoxCast(collider.bounds.center, collider.bounds.size, 0f, Vector2.down, .1f, groundLayer);
             Color rayColor;

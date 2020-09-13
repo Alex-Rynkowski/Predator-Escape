@@ -19,10 +19,6 @@ namespace PE.Core
 
         bool loadedData = false;
 
-        private void Awake()
-        {
-            DontDestroyOnLoad(gameObject);
-        }
         private void Start()
         {
             a_musicSettings += MusicVolumeSettings;
