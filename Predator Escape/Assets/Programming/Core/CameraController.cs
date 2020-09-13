@@ -10,20 +10,17 @@ namespace PE.Core
         [SerializeField] int musicToPlay;
 
         float xPos;
+        Transform playerTransform;
         private void Start()
-        {            
-            
+        {
+            FindObjectOfType<AudioManager>().MusicToPlay(musicToPlay);
+            playerTransform = FindObjectOfType<PlayerMovement>().GetComponent<Transform>();
         }
 
         private void LateUpdate()
         {
-            FindObjectOfType<AudioManager>().MusicToPlay(musicToPlay);
-
-            xPos = gameObject.transform.position.x;
-            xPos = FindObjectOfType<PlayerMovement>().GetComponent<Transform>().position.x;
-
+            xPos = playerTransform.position.x;
             transform.position = new Vector2(xPos, 0);
-
         }
     }
 
