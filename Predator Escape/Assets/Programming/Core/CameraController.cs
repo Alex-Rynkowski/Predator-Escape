@@ -12,6 +12,7 @@ namespace PE.Core
         float xPos;
         private void Start()
         {            
+            
         }
 
         private void LateUpdate()

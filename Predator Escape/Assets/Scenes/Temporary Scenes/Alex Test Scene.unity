@@ -6635,7 +6635,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   speedBoost: 10
-  jumpForce: 50
+  jumpKey: 32
+  jumpForce: 200
   jumpTimeCounter: 1
   fallSpeed: 20
 --- !u!50 &1675573760
