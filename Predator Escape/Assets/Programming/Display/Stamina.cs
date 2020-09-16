@@ -1,7 +1,6 @@
 ﻿using PE.Movement;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -21,17 +20,27 @@ namespace PE.Display
         bool sprintToggle = false;
         Text sprintTxt;
         CanvasGroup canvasGroup;
+        private Image img;
         private void Start()
         {
+            img = staminaBar.GetComponentInChildren<Image>();
+            sprintTxt = staminaBar.GetComponentInChildren<Text>();
+            canvasGroup = GetComponent<CanvasGroup>();
             SprintText();
             StartCoroutine(RegenStamina());
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            ToggleSprint();
+            //StartCoroutine(ButtonAplha());
+        }
+        
+        public void ToggleSprint() // Call this in an input script
+        {
             if (staminaUsed) return;
 
-            float currentAmount = staminaBar.GetComponentInChildren<Image>().fillAmount * maxStamina;
+            float currentAmount = GetFillAmountF();
 
             if (!sprintToggle && currentAmount > 10)
             {
@@ -47,10 +56,8 @@ namespace PE.Display
 
         private float SprintBar()
         {
-            float currentAmount = staminaBar.GetComponentInChildren<Image>().fillAmount * maxStamina;
+            float currentAmount = GetFillAmountF();
             float newAmount = currentAmount - depleteAmount;
-
-            print(newAmount);
 
             if (newAmount < 0)
             {
@@ -59,17 +66,15 @@ namespace PE.Display
             else
             {
                 //StartCoroutine(ButtonAplha());
-                return staminaBar.GetComponentInChildren<Image>().fillAmount -= (depleteAmount / maxStamina);
+                return img.fillAmount -= (depleteAmount / maxStamina);
             }
             
         }
 
         private float UpdateStamina()
         {
-            float currentAmount = staminaBar.GetComponentInChildren<Image>().fillAmount * maxStamina;
+            float currentAmount = GetFillAmountF();
             float newAmount = currentAmount + depleteAmount;
-
-            print(currentAmount);
 
             if (newAmount > maxStamina)
             {
@@ -78,31 +83,44 @@ namespace PE.Display
             else
             {
                 //StartCoroutine(ButtonAplha());
-                return staminaBar.GetComponentInChildren<Image>().fillAmount += (depleteAmount / maxStamina);
+                return img.fillAmount += (depleteAmount / maxStamina);
             }
+        }
+        
+        private float ChangeMaxStamina(float amount, float duration)
+        {
+            float currentAmount = GetFillAmountF();
+            maxStamina += amount;
+            img.fillAmount = currentAmount / maxStamina;
+            StartCoroutine(ResetMaxStamina(amount, duration));
+            
+            return img.fillAmount += (depleteAmount / maxStamina);
         }
 
         private void SprintText()
         {
-            sprintTxt = staminaBar.GetComponentInChildren<Text>();
-            sprintTxt.text = string.Format("Stamina: {0}/" + maxStamina, GetFillAmount());
+            sprintTxt.text = string.Format("Stamina: {0}/" + maxStamina, GetFillAmountInt32());
         }
 
-        private float GetFillAmount()
+        private float GetFillAmountInt32()
         {
-            return Convert.ToInt32(staminaBar.GetComponentInChildren<Image>().fillAmount * maxStamina);
+            return Convert.ToInt32(GetFillAmountF());
+        }
+
+        private float GetFillAmountF()
+        {
+            return img.fillAmount * maxStamina;
         }
 
         private IEnumerator ButtonAplha()
         {
-            canvasGroup = GetComponent<CanvasGroup>();
             canvasGroup.interactable = false;
-            FindObjectOfType<PlayerMovement>().MoveSpeed(true);
+            //FindObjectOfType<PlayerMovement>().MoveSpeed(true);
             staminaUsed = true;
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(1f);
             canvasGroup.interactable = true;
-            FindObjectOfType<PlayerMovement>().MoveSpeed(false);
+            //FindObjectOfType<PlayerMovement>().MoveSpeed(false);
             staminaUsed = false;
         }
 
@@ -111,7 +129,7 @@ namespace PE.Display
             SprintBar();
             SprintText();
 
-            float currentAmount = staminaBar.GetComponentInChildren<Image>().fillAmount * maxStamina;
+            float currentAmount = GetFillAmountF();
 
             if (sprintToggle && currentAmount > 1)
             {
@@ -120,7 +138,6 @@ namespace PE.Display
             }
             else
             {
-                yield return new WaitForSeconds(0.5f);
                 sprintToggle = false;
             }
         }
@@ -134,6 +151,14 @@ namespace PE.Display
             }
             yield return new WaitForSeconds(regenSpeed);
             StartCoroutine(RegenStamina());
+        }
+
+        private IEnumerator ResetMaxStamina(float amount, float duration)
+        {
+            yield return new WaitForSeconds(duration);
+            float currentAmount = GetFillAmountF();
+            maxStamina -= amount;
+            img.fillAmount = currentAmount / maxStamina;
         }
     }
 
