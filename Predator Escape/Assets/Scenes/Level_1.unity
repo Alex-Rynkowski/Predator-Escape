@@ -422,5 +422,21 @@ PrefabInstance:
       propertyPath: depleteAmount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4896869060222716501, guid: 08a9e8e6754038c4cabf840714fe3cc1, type: 3}
+      propertyPath: regenTime
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4896869060222716501, guid: 08a9e8e6754038c4cabf840714fe3cc1, type: 3}
+      propertyPath: regenSpeed
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4896869060222716501, guid: 08a9e8e6754038c4cabf840714fe3cc1, type: 3}
+      propertyPath: drainSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4896869060222716501, guid: 08a9e8e6754038c4cabf840714fe3cc1, type: 3}
+      propertyPath: maxStamina
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08a9e8e6754038c4cabf840714fe3cc1, type: 3}

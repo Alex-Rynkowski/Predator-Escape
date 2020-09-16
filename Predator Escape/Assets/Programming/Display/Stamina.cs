@@ -11,7 +11,11 @@ namespace PE.Display
     public class Stamina : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField] GameObject staminaBar;
-        [SerializeField] float depleteAmount;
+        [Header("Stamina Attributes, Hover over name for details")]
+        [Tooltip("How fast stamina regenerates, Lower is faster")] [SerializeField] private float regenSpeed;
+        [Tooltip("How fast stamina drains, Lower is faster")] [SerializeField] private float drainSpeed;
+        [Tooltip("Amount of stamina that drains every drainSpeed in seconds")][SerializeField] float depleteAmount;
+        [Tooltip("The max amount of stamina")][SerializeField] private float maxStamina;
 
         bool staminaUsed = false;
         bool sprintToggle = false;
@@ -20,12 +24,14 @@ namespace PE.Display
         private void Start()
         {
             SprintText();
+            StartCoroutine(RegenStamina());
         }
+
         public void OnPointerClick(PointerEventData eventData)
         {
             if (staminaUsed) return;
 
-            float currentAmount = staminaBar.GetComponentInChildren<Image>().fillAmount * 100;
+            float currentAmount = staminaBar.GetComponentInChildren<Image>().fillAmount * maxStamina;
 
             if (!sprintToggle && currentAmount > 10)
             {
@@ -41,7 +47,7 @@ namespace PE.Display
 
         private float SprintBar()
         {
-            float currentAmount = staminaBar.GetComponentInChildren<Image>().fillAmount * 100;
+            float currentAmount = staminaBar.GetComponentInChildren<Image>().fillAmount * maxStamina;
             float newAmount = currentAmount - depleteAmount;
 
             print(newAmount);
@@ -53,20 +59,38 @@ namespace PE.Display
             else
             {
                 //StartCoroutine(ButtonAplha());
-                return staminaBar.GetComponentInChildren<Image>().fillAmount -= (depleteAmount / 100);
+                return staminaBar.GetComponentInChildren<Image>().fillAmount -= (depleteAmount / maxStamina);
             }
             
+        }
+
+        private float UpdateStamina()
+        {
+            float currentAmount = staminaBar.GetComponentInChildren<Image>().fillAmount * maxStamina;
+            float newAmount = currentAmount + depleteAmount;
+
+            print(currentAmount);
+
+            if (newAmount > maxStamina)
+            {
+                return currentAmount;
+            }
+            else
+            {
+                //StartCoroutine(ButtonAplha());
+                return staminaBar.GetComponentInChildren<Image>().fillAmount += (depleteAmount / maxStamina);
+            }
         }
 
         private void SprintText()
         {
             sprintTxt = staminaBar.GetComponentInChildren<Text>();
-            sprintTxt.text = string.Format("Stamina: {0}/100", GetFillAmount());
+            sprintTxt.text = string.Format("Stamina: {0}/" + maxStamina, GetFillAmount());
         }
 
         private float GetFillAmount()
         {
-            return Convert.ToInt32(staminaBar.GetComponentInChildren<Image>().fillAmount * 100);
+            return Convert.ToInt32(staminaBar.GetComponentInChildren<Image>().fillAmount * maxStamina);
         }
 
         private IEnumerator ButtonAplha()
@@ -87,15 +111,29 @@ namespace PE.Display
             SprintBar();
             SprintText();
 
-            float currentAmount = staminaBar.GetComponentInChildren<Image>().fillAmount * 100;
+            float currentAmount = staminaBar.GetComponentInChildren<Image>().fillAmount * maxStamina;
 
             if (sprintToggle && currentAmount > 1)
             {
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(drainSpeed);
                 StartCoroutine(DrainContinuously());
             }
-            else 
-            {sprintToggle = false;}
+            else
+            {
+                yield return new WaitForSeconds(0.5f);
+                sprintToggle = false;
+            }
+        }
+
+        private IEnumerator RegenStamina()
+        {
+            if (!sprintToggle)
+            {
+                UpdateStamina();
+                SprintText();
+            }
+            yield return new WaitForSeconds(regenSpeed);
+            StartCoroutine(RegenStamina());
         }
     }
 
