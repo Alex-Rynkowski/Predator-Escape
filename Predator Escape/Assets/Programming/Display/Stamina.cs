@@ -1,6 +1,7 @@
 ﻿using PE.Movement;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,20 +14,29 @@ namespace PE.Display
         [SerializeField] float depleteAmount;
 
         bool staminaUsed = false;
+        bool sprintToggle = false;
         Text sprintTxt;
-        PlayerMovement playerMovement;
         CanvasGroup canvasGroup;
         private void Start()
         {
             SprintText();
-            playerMovement = FindObjectOfType<PlayerMovement>();
         }
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (!playerMovement.IsGrounded()) return;
             if (staminaUsed) return;
-            SprintBar();
-            SprintText();
+
+            float currentAmount = staminaBar.GetComponentInChildren<Image>().fillAmount * 100;
+
+            if (!sprintToggle && currentAmount > 10)
+            {
+                sprintToggle = true;
+                StartCoroutine(DrainContinuously());
+            }
+
+            else
+            {
+                sprintToggle = false;
+            }
         }
 
         private float SprintBar()
@@ -35,16 +45,17 @@ namespace PE.Display
             float newAmount = currentAmount - depleteAmount;
 
             print(newAmount);
+
             if (newAmount < 0)
             {
                 return currentAmount;
             }
             else
             {
-                StartCoroutine(ButtonAplha());
+                //StartCoroutine(ButtonAplha());
                 return staminaBar.GetComponentInChildren<Image>().fillAmount -= (depleteAmount / 100);
             }
-
+            
         }
 
         private void SprintText()
@@ -69,6 +80,22 @@ namespace PE.Display
             canvasGroup.interactable = true;
             FindObjectOfType<PlayerMovement>().MoveSpeed(false);
             staminaUsed = false;
+        }
+
+        private IEnumerator DrainContinuously()
+        {
+            SprintBar();
+            SprintText();
+
+            float currentAmount = staminaBar.GetComponentInChildren<Image>().fillAmount * 100;
+
+            if (sprintToggle && currentAmount > 1)
+            {
+                yield return new WaitForSeconds(0.2f);
+                StartCoroutine(DrainContinuously());
+            }
+            else 
+            {sprintToggle = false;}
         }
     }
 
